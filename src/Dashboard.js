@@ -17,6 +17,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
 import ScoreTable from './ScoreTable';
+// import 
 import styles from './dashboard.styles'
 import axios from 'axios'
 const useStyles = makeStyles(styles);
@@ -27,11 +28,10 @@ export default function Dashboard() {
   
   const fetchData = async () => {
     const result = await axios('api/people.json');
-    debugger
-    setData(result.body);
+    setData(result.data);
   };
-  
-  React.useEffect(fetchData(), [])
+
+  React.useEffect(()=>{fetchData()}, [])
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -39,6 +39,7 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
@@ -90,7 +91,7 @@ export default function Dashboard() {
             {/* Recent scores */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <ScoreTable />
+                <ScoreTable rows={data} />
               </Paper>
             </Grid>
           </Grid>
