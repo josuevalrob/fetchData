@@ -40,7 +40,7 @@ class MuiVirtualizedTable extends React.PureComponent {
 
   headerRenderer = ({ label, columnIndex }) => {
     const { headerHeight, columns, classes } = this.props;
-
+ 
     return (
       <TableCell
         component="div"
@@ -64,9 +64,7 @@ class MuiVirtualizedTable extends React.PureComponent {
             height={height}
             width={width}
             rowHeight={rowHeight}
-            gridStyle={{
-              direction: 'inherit',
-            }}
+            gridStyle={{ direction: 'inherit'}}
             headerHeight={headerHeight}
             className={classes.table}
             {...tableProps}
