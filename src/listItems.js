@@ -5,32 +5,33 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import List from '@material-ui/core/List';
 
-export const mainListItems = (
-  <div>
+export const MainListItems = () => (
+  <List>
     <ListItem button>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
-  </div>
+  </List>
 );
 
-export const secondaryListItems = (
-  <div>
+export const SecondaryListItems = ({setFilter}) => (
+  <List>
     <ListSubheader inset>Saved reports</ListSubheader>
-    <ListItem button>
+    <ListItem button onClick={()=>setFilter('gender')}>
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
       <ListItemText primary="Scores by gender" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={()=>setFilter('country')}>
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
       <ListItemText primary="Scores by country" />
     </ListItem>
-  </div>
+  </List>
 );

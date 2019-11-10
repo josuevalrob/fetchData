@@ -47,15 +47,16 @@ class MuiVirtualizedTable extends React.PureComponent {
         component="div"
         className={clsx(classes.tableCell, classes.flexContainer, classes.noClick)}
         variant="head"
-        style={{ height: 'auto', display:'flex', flexWrap: 'wrap'}}
+        // style={{ height: 'auto', display:'flex', flexWrap: 'wrap'}}
+        style={{height:headerHeight}}
         align={columns[columnIndex].numeric || false ? 'right' : 'left'}
       >
         <span>{label}</span>
-        <Input defaultValue={''} variant="filled" style={{background:'#c1c1c1'}}/>
       </TableCell>
     );
   };
-
+  searchRender = props => 
+    <Input defaultValue={''} variant="filled" style={{background:'#c1c1c1'}}/>
   render() {
     const { classes, columns, rowHeight, headerHeight, ...tableProps } = this.props;
     return (
@@ -102,7 +103,7 @@ MuiVirtualizedTable.propTypes = {
       dataKey: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
       numeric: PropTypes.bool,
-      width: PropTypes.number.isRequired,
+      // width: PropTypes.number.isRequired,
     }),
   ).isRequired,
   headerHeight: PropTypes.number,

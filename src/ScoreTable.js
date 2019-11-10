@@ -6,8 +6,8 @@ import VirtualizedTable from './VirtualizedTable' //presentation 🎨
 import {orderBy} from 'lodash'
 export default function ReactVirtualizedTable({rows}) { //logic 🧠
   const [list, setList] = useState([])
-  const [sorts, setSort] = useState({sortBy:'', sortDirection:''})
-  const [word, setWord] = useState("")
+  const [sorts, setSort] = useState({sortBy:'last_name', sortDirection:'ASC'})
+  // const [word, setWord] = useState("")
   
   useEffect(()=>setList(rows), [rows])
   useEffect(()=>{
