@@ -3,39 +3,48 @@ import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import VirtualizedTable from './VirtualizedTable' //presentation 🎨
-
+import {orderBy} from 'lodash'
 export default function ReactVirtualizedTable({rows}) { //logic 🧠
+  const [list, setList] = React.useState([])
+  const [sorts, setSort] = React.useState({sortBy:'', sortDirection:''})
+  React.useEffect(()=>setList(rows), [rows])
+  
+  React.useEffect(()=>{
+    const {sortBy, sortDirection} = sorts
+    setList(list => orderBy(list, sortBy, sortDirection.toLowerCase()))
+  }, [sorts])
+
   return (
     <Paper style={{ height: 400, width: '100%' }}>
-      {!!rows.length 
+      {!!list.length 
         ? <VirtualizedTable //separate logic component from presentational component 🎨🧠
-          rowCount={rows.length}
-          rowGetter={({ index }) => rows[index]}
-          sort={this._sort}
-          sortBy={sortBy}
-          columns={[
-            {
-              label: 'Last name',
-              dataKey: 'last_name',
-            },
-            {
-              label: 'First name',
-              dataKey: 'first_name',
-            },
-            {
-              label: 'Gender',
-              dataKey: 'gender',
-            },
-            {
-              label: 'City',
-              dataKey: 'city',
-            },
-            {
-              label: 'Country',
-              dataKey: 'country',
-            },
-          ]}
-          />
+            rowCount={list.length}
+            rowGetter={({ index }) => list[index]}
+            sort={({sortBy, sortDirection}) => setSort({sortBy, sortDirection})}
+            sortBy={sorts.sortBy}
+            columns={[
+              {
+                label: 'Last name',
+                dataKey: 'last_name',
+              },
+              {
+                label: 'First name',
+                dataKey: 'first_name',
+              },
+              {
+                label: 'Gender',
+                dataKey: 'gender',
+              },
+              {
+                label: 'City',
+                dataKey: 'city',
+              },
+              {
+                label: 'Country',
+                dataKey: 'country',
+              },
+            ]}
+            />
         : <CircularProgress /> //💅
       }
     </Paper>
