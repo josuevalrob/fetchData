@@ -1,15 +1,16 @@
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import VirtualizedTable from './VirtualizedTable' //presentation 🎨
 import {orderBy} from 'lodash'
 export default function ReactVirtualizedTable({rows}) { //logic 🧠
-  const [list, setList] = React.useState([])
-  const [sorts, setSort] = React.useState({sortBy:'', sortDirection:''})
-  React.useEffect(()=>setList(rows), [rows])
+  const [list, setList] = useState([])
+  const [sorts, setSort] = useState({sortBy:'', sortDirection:''})
+  const [word, setWord] = useState("")
   
-  React.useEffect(()=>{
+  useEffect(()=>setList(rows), [rows])
+  useEffect(()=>{
     const {sortBy, sortDirection} = sorts
     setList(list => orderBy(list, sortBy, sortDirection.toLowerCase()))
   }, [sorts])
@@ -22,6 +23,7 @@ export default function ReactVirtualizedTable({rows}) { //logic 🧠
             rowGetter={({ index }) => list[index]}
             sort={({sortBy, sortDirection}) => setSort({sortBy, sortDirection})}
             sortBy={sorts.sortBy}
+            sortDirection={sorts.sortDirection}
             columns={[
               {
                 label: 'Last name',

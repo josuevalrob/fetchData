@@ -85,7 +85,7 @@ export default function Dashboard() {
             {/* Chart */}
             <Grid item xs={12}>
               <Paper className={fixedHeightPaper}>
-                <Chart />
+                <Chart rows={data} />
               </Paper>
             </Grid>
             {/* Recent scores */}

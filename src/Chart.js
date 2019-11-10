@@ -2,22 +2,11 @@ import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
 import Title from './Title';
 
-// Generate Data
-function createData(country, score) {
-  return { country, score };
-}
-
-const data = [
-  createData('DE', 79),
-  createData('UK', 63),
-  createData('FR', 76),
-  createData('ES', 68),
-  createData('NL', 90),
-  createData('IT', 55),
-  createData('AU', undefined),
-];
-
-export default function Chart() {
+export default function Chart({rows}) {
+  const [data, setData] = React.useState([])
+  React.useEffect(()=>{
+    setData(removeDuplicatesAndKeepMax(rows))
+  }, [rows])
   return (
     <React.Fragment>
       <Title>Score statistics</Title>
@@ -43,3 +32,11 @@ export default function Chart() {
     </React.Fragment>
   );
 }
+
+const removeDuplicatesAndKeepMax = (rows) => 
+	rows
+	.sort((a,b) => b.score - a.score) //just keep the highst value
+	.filter((v,i,a) => //filter repetitive countries
+		a.findIndex(t => (t.country === v.country))===i)
+	.sort((a,b) => //order by country name, just for make it more dinamic
+		(a.country > b.country) ? 1 : ((b.country > a.country) ? -1 : 0))

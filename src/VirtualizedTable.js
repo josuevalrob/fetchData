@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
 import { AutoSizer, Column, Table } from 'react-virtualized';
 import styles from './scoretable.styles'
+import Input from '@material-ui/core/Input';
 
 class MuiVirtualizedTable extends React.PureComponent {
   static defaultProps = {
@@ -46,10 +47,11 @@ class MuiVirtualizedTable extends React.PureComponent {
         component="div"
         className={clsx(classes.tableCell, classes.flexContainer, classes.noClick)}
         variant="head"
-        style={{ height: headerHeight }}
+        style={{ height: 'auto', display:'flex', flexWrap: 'wrap'}}
         align={columns[columnIndex].numeric || false ? 'right' : 'left'}
       >
         <span>{label}</span>
+        <Input defaultValue={''} variant="filled" style={{background:'#c1c1c1'}}/>
       </TableCell>
     );
   };
@@ -58,8 +60,7 @@ class MuiVirtualizedTable extends React.PureComponent {
     const { classes, columns, rowHeight, headerHeight, ...tableProps } = this.props;
     return (
       <AutoSizer>
-        {({ height, width }) => {
-          return (
+        {({ height, width }) => (
           <Table
             height={height}
             width={width}
@@ -88,7 +89,7 @@ class MuiVirtualizedTable extends React.PureComponent {
               )
             )}
           </Table>
-        )}}
+        )}
       </AutoSizer>
     );
   }
