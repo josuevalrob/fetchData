@@ -1,5 +1,3 @@
-const drawerWidth = 240;
-
 const styles = (theme) => ({
   flexContainer: {
     display: 'flex',
