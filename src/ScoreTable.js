@@ -3,12 +3,12 @@ import React, {useState, useEffect} from 'react';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import VirtualizedTable from './VirtualizedTable' //presentation 🎨
-import {orderBy, filter, keys} from 'lodash'
+import {orderBy, filter, keys, values} from 'lodash'
 import FilterTable from './FilterTable'
 export default function ReactVirtualizedTable({rows}) { //logic 🧠
   const [list, setList] = useState([])
   const [sorts, setSort] = useState({sortBy:'last_name', sortDirection:'ASC'})
-  const [filterData, setFilterData] = useState({word:'', column:[]})
+  const [filterData, setFilterData] = useState({word:'', column:{}})
   useEffect(()=>setList(rows), [rows])
   useEffect(()=>{
     const {sortBy, sortDirection} = sorts
@@ -17,9 +17,16 @@ export default function ReactVirtualizedTable({rows}) { //logic 🧠
 
   useEffect(()=>{
     const {word, column} = filterData
-    console.log(word, column)
-    const result = word.length > 3 ?  filter(rows, p => keys(column).some( k =>column[k] && rows[k] && rows[k].includes(word))) : rows
-    console.log(result)
+    const result = !values(column).some(v=>v===true)
+      ? rows
+      : filter(rows, obj =>         // callback
+          keys(column)              // check per column
+            .some(k=>               // search per column
+              column[k] &&          // 1) check if the calum is select,
+              obj[k]    &&          // 2) check if we have the obj property
+              obj[k].includes(word) // 3) check the word on that column
+        ))
+
     setList(result)
   }, [filterData, rows])
   // debugger
