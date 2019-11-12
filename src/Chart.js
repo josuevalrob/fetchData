@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { BarChart, Bar, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
 import Title from './Title';
 import {groupBy, meanBy, keys} from 'lodash'
-export default function Chart({rows, filterBy}) {
+export default function Chart({rows, filterBy, loading}) {
   const [data, setData] = useState([])
 
   useEffect(()=>{ //component did update

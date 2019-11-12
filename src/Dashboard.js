@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -23,17 +23,18 @@ const useStyles = makeStyles(styles);
 export default function Dashboard() {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-  const [open, setOpen] = React.useState(false);
-  const [data, setData] = React.useState([])
-  const [filter, setFilter] = React.useState('gender')
-
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState([])
+  const [filter, setFilter] = useState('gender')
+  const [isLoading, setLoader] = useState(false);
   const fetchData = async () => {
-    const result = await axios('api/people.json');
+    setLoader(true)
+    const result = await axios('api/people.json');    
     setData(result.data);
+    setLoader(false)
   };
 
-  React.useEffect(()=>{fetchData()}, [])
-
+  useEffect(()=>{fetchData()}, [])
 
   return (
     <div className={classes.root}>
@@ -44,7 +45,7 @@ export default function Dashboard() {
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            onClick={ () => setOpen(true)}
+            onClick={()=>setOpen(true)}
             className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
           >
             <MenuIcon />
@@ -78,13 +79,13 @@ export default function Dashboard() {
             {/* Chart */}
             <Grid item xs={12}>
               <Paper className={fixedHeightPaper}>
-                <Chart rows={data} filterBy={filter}/>
+                <Chart loading={isLoading} rows={data} filterBy={filter}/>
               </Paper>
             </Grid>
             {/* Recent scores */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <ScoreTable rows={data} />
+                <ScoreTable loading={isLoading} rows={data} />
               </Paper>
             </Grid>
           </Grid>

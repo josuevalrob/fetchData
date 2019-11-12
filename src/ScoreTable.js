@@ -5,7 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import VirtualizedTable from './VirtualizedTable' //presentation 🎨
 import {orderBy, filter, keys, values} from 'lodash'
 import FilterTable from './FilterTable'
-export default function ReactVirtualizedTable({rows}) { //logic 🧠
+export default function ReactVirtualizedTable({rows, loading}) { //logic 🧠
   const [list, setList] = useState([])
   const [sorts, setSort] = useState({sortBy:'last_name', sortDirection:'ASC'})
   const [filterData, setFilterData] = useState({word:'', column:{}})
@@ -21,7 +21,7 @@ export default function ReactVirtualizedTable({rows}) { //logic 🧠
       ? rows
       : filter(rows, obj =>         // callback
           keys(column)              // check per column
-            .some(k=>               // search per column
+            .some(k=>               
               column[k] &&          // 1) check if the calum is select,
               obj[k]    &&          // 2) check if we have the obj property
               obj[k].includes(word) // 3) check the word on that column
@@ -29,20 +29,21 @@ export default function ReactVirtualizedTable({rows}) { //logic 🧠
 
     setList(result)
   }, [filterData, rows])
-  // debugger
   return (
     <React.Fragment>
     <FilterTable columns={opts} callFilter={setFilterData} />
     <Paper style={{ height: 400, width: '100%' }}>
-      {!!list.length 
-        ? <VirtualizedTable //separate logic component from presentational component 🎨🧠
-            rowCount={list.length}
-            rowGetter={({ index }) => list[index]}
-            sort={({sortBy, sortDirection}) => setSort({sortBy, sortDirection})}
-            sortBy={sorts.sortBy}
-            sortDirection={sorts.sortDirection}
-            columns={opts}
+      {!loading 
+        ? !!list.length
+          ? <VirtualizedTable //separate logic component from presentational component 🎨🧠
+              rowCount={list.length}
+              rowGetter={({ index }) => list[index]}
+              sort={({sortBy, sortDirection}) => setSort({sortBy, sortDirection})}
+              sortBy={sorts.sortBy}
+              sortDirection={sorts.sortDirection}
+              columns={opts}
             />
+          : <div>No results found</div>
         : <CircularProgress /> //💅
       }
     </Paper>
