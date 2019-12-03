@@ -1,7 +1,3 @@
-# Holidu frontend developer interview assignment
-
-Hi there! Congratulations on making it to the next step!
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and is using [Material-UI](https://material-ui.com/) and [Recharts](http://recharts.org/) to save you some time.
 
 
@@ -16,8 +12,6 @@ The following functionality should be implemented:
 
 Some tests for the implemented functionality would be nice, too. 😉
 
-
-If you have any questions, please send an email to your HR contact at Holidu.
 
 Good luck and happy coding!
 
